@@ -2,23 +2,41 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
+import { MeshStandardMaterial } from 'three';
 
 const enable_debugging = false;
 
 // loaders
 const textureLoader = new THREE.TextureLoader()
-const normalTexture = textureLoader.load('/textures/HeightMap.jpg')
+const normalTexture = textureLoader.load('/textures/MetalTexture.jpg')
+const mountainTexture = textureLoader.load('/textures/MountainTexture.jpg')
+const mountainHeightTexture = textureLoader.load('/textures/HeightMap.png')
+const mountainAlphaTexture = textureLoader.load('/textures/AlphaMap.png')
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
+const mapCanvas = document.querySelector('canvas.map')
+
 // Scene
 const scene = new THREE.Scene()
+const mapScene = new THREE.Scene()
 
 // Objects
 const geometry = new THREE.TorusKnotBufferGeometry(0.65, 0.22, 3, 7, 1, 3)
 const sphereObject = new THREE.SphereBufferGeometry(0.15)
+
+const mapGeometry = new THREE.PlaneBufferGeometry(3, 3, 64, 64);
+
 // Materials
+const mapMaterial = new THREE.MeshStandardMaterial({
+    color: '#ffff00',
+    map: mountainTexture,
+    displacementMap: mountainHeightTexture,
+    displacementScale: 0.1,
+    alphaMap: mountainAlphaTexture,
+    transparent: true,
+})
 
 const material = new THREE.MeshStandardMaterial()
 material.metalness = 0.6
@@ -32,13 +50,25 @@ const triangle = new THREE.Mesh(sphereObject, material)
 scene.add(sphere)
 scene.add(triangle)
 
-// Lights
+
+const plane = new THREE.Mesh(mapGeometry, mapMaterial)
+plane.rotation.x = 5.3
+
+mapScene.add(plane)
+
+const mapPointLight = new THREE.PointLight(0xffffff, 0.5)
+mapPointLight.position.x = 2
+mapPointLight.position.y = 3
+mapPointLight.position.z = 4
+mapPointLight.intensity = .4
+mapScene.add(mapPointLight)
 
 const pointLight = new THREE.PointLight(0xffffff, 0.5)
 pointLight.position.x = 2
 pointLight.position.y = 3
 pointLight.position.z = 4
 scene.add(pointLight)
+
 
 const pointLight2 = new THREE.PointLight(0xffff00, 2)
 pointLight2.position.set(-3.08, -2, -4.6)
@@ -52,7 +82,7 @@ scene.add(pointLight3)
 
 if (enable_debugging) {
     const gui = new dat.GUI()
-
+    
     const light2 = gui.addFolder('light 2')
     light2.add(pointLight2.position, 'y').min(-7).max(7).step(0.01)
     light2.add(pointLight2.position, 'x').min(-7).max(7).step(0.01)
@@ -70,6 +100,15 @@ if (enable_debugging) {
 
     //const pointLight3helper = new THREE.PointLightHelper(pointLight3, 1)
     //scene.add(pointLight3helper)
+
+    gui.add(mapPointLight.position, 'x')
+    gui.add(mapPointLight.position, 'y')
+    gui.add(mapPointLight.position, 'z')
+    const col = {
+        color: '#ffff00'
+    }
+
+    gui.addColor(col, 'color').onChange(() => mapPointLight.color.set(col.color))
 }
 /**
  * Sizes
@@ -103,6 +142,12 @@ camera.position.y = 0
 camera.position.z = 2
 scene.add(camera)
 
+const mapCamera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+mapCamera.position.x = 0
+mapCamera.position.y = 0
+mapCamera.position.z = 2
+mapScene.add(mapCamera)
+
 // Controls
 //const controls = new OrbitControls(camera, canvas)
 //controls.enableDamping = true
@@ -117,6 +162,13 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+const mapRenderer = new THREE.WebGLRenderer({
+    canvas: mapCanvas,
+    alpha: true
+})
+mapRenderer.setSize(sizes.width, sizes.height)
+mapRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 /**
  * Animate
@@ -154,7 +206,7 @@ const clock = new THREE.Clock()
 
 const tick = () => {
 
-    targetX = mouseX * .0001
+    targetX = mouseX * .001
     targetY = mouseY * .001
     resetRotation++;
 
@@ -166,13 +218,25 @@ const tick = () => {
     triangle.rotation.y = -1.7 * elapsedTime
     triangle.rotation.x = 0.7 * elapsedTime
 
-    if (resetRotation < 7) {
+    plane.rotation.z = 0.3 * elapsedTime
+    const displacement = Math.min(0.3 + mouseY * 0.003, 0.63)
+
+    plane.material.displacementScale = displacement > -0.3 ? displacement : -0.3
+
+    if (resetRotation < 70) {
         sphere.rotation.x += .07 * (targetX - sphere.rotation.y)
         sphere.rotation.x -= .07 * (targetY - sphere.rotation.y)
         triangle.rotation.x += .07 * (targetX - triangle.rotation.y)
         triangle.rotation.x -= .07 * (targetY - triangle.rotation.y)
+        triangle.position.z += .03 * (targetY - triangle.position.z)
+        triangle.position.z -= .03 * (targetX - triangle.position.z)
+        sphere.position.z += .03 * (targetY - sphere.position.z)
+        sphere.position.z -= .03 * (targetX - sphere.position.z)
     } else {
         resetRotation = 0;
+        mouseX = 0
+        targetX = 0
+        targetY = 0
     }
 
 
@@ -182,6 +246,7 @@ const tick = () => {
 
     // Render
     renderer.render(scene, camera)
+    mapRenderer.render(mapScene, mapCamera)
 
     // Call tick again on the next frame
     window.requestAnimationFrame(tick)
