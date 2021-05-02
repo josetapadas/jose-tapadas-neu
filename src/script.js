@@ -4,7 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 import { MeshStandardMaterial } from 'three';
 
-const enable_debugging = false;
+const enable_debugging = true;
 
 // loaders
 const textureLoader = new THREE.TextureLoader()
@@ -33,7 +33,7 @@ const mapMaterial = new THREE.MeshStandardMaterial({
     color: '#ffff00',
     map: mountainTexture,
     displacementMap: mountainHeightTexture,
-    displacementScale: 0.1,
+    displacementScale: 0.2,
     alphaMap: mountainAlphaTexture,
     transparent: true,
 })
@@ -50,17 +50,15 @@ const triangle = new THREE.Mesh(sphereObject, material)
 scene.add(sphere)
 scene.add(triangle)
 
-
 const plane = new THREE.Mesh(mapGeometry, mapMaterial)
-plane.rotation.x = 5.3
-
+plane.rotation.x = 5.5
 mapScene.add(plane)
 
-const mapPointLight = new THREE.PointLight(0xffffff, 0.5)
+const mapPointLight = new THREE.PointLight(0xffd100, 0.5)
 mapPointLight.position.x = 2
 mapPointLight.position.y = 3
 mapPointLight.position.z = 4
-mapPointLight.intensity = .4
+mapPointLight.intensity = .5
 mapScene.add(mapPointLight)
 
 const pointLight = new THREE.PointLight(0xffffff, 0.5)
@@ -80,39 +78,6 @@ pointLight3.position.set(1.7, 1.7, -3.78)
 pointLight3.intensity = 3
 scene.add(pointLight3)
 
-if (enable_debugging) {
-    const gui = new dat.GUI()
-    
-    const light2 = gui.addFolder('light 2')
-    light2.add(pointLight2.position, 'y').min(-7).max(7).step(0.01)
-    light2.add(pointLight2.position, 'x').min(-7).max(7).step(0.01)
-    light2.add(pointLight2.position, 'z').min(-7).max(7).step(0.01)
-    light2.add(pointLight2, 'intensity').min(0).max(10).step(0.01)
-
-    //const pointLight2helper = new THREE.PointLightHelper(pointLight2, 1)
-    //scene.add(pointLight2helper)
-
-    const light3 = gui.addFolder('light 3')
-    light3.add(pointLight3.position, 'y').min(-7).max(7).step(0.01)
-    light3.add(pointLight3.position, 'x').min(-7).max(7).step(0.01)
-    light3.add(pointLight3.position, 'z').min(-7).max(7).step(0.01)
-    light3.add(pointLight3, 'intensity').min(0).max(10).step(0.01)
-
-    //const pointLight3helper = new THREE.PointLightHelper(pointLight3, 1)
-    //scene.add(pointLight3helper)
-
-    gui.add(mapPointLight.position, 'x')
-    gui.add(mapPointLight.position, 'y')
-    gui.add(mapPointLight.position, 'z')
-    const col = {
-        color: '#ffff00'
-    }
-
-    gui.addColor(col, 'color').onChange(() => mapPointLight.color.set(col.color))
-}
-/**
- * Sizes
- */
 const sizes = {
     width: window.innerWidth,
     height: window.innerHeight
@@ -145,16 +110,51 @@ scene.add(camera)
 const mapCamera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 mapCamera.position.x = 0
 mapCamera.position.y = 0
-mapCamera.position.z = 2
+mapCamera.position.z = 1
 mapScene.add(mapCamera)
 
-// Controls
-//const controls = new OrbitControls(camera, canvas)
-//controls.enableDamping = true
+if (enable_debugging) {
+    const gui = new dat.GUI()
+    
+    const light2 = gui.addFolder('light 2')
+    light2.add(pointLight2.position, 'y').min(-7).max(7).step(0.01)
+    light2.add(pointLight2.position, 'x').min(-7).max(7).step(0.01)
+    light2.add(pointLight2.position, 'z').min(-7).max(7).step(0.01)
+    light2.add(pointLight2, 'intensity').min(0).max(10).step(0.01)
 
-/**
- * Renderer
- */
+    //const pointLight2helper = new THREE.PointLightHelper(pointLight2, 1)
+    //scene.add(pointLight2helper)
+
+    const light3 = gui.addFolder('light 3')
+    light3.add(pointLight3.position, 'y').min(-7).max(7).step(0.01)
+    light3.add(pointLight3.position, 'x').min(-7).max(7).step(0.01)
+    light3.add(pointLight3.position, 'z').min(-7).max(7).step(0.01)
+    light3.add(pointLight3, 'intensity').min(0).max(10).step(0.01)
+
+    //const pointLight3helper = new THREE.PointLightHelper(pointLight3, 1)
+    //scene.add(pointLight3helper)
+
+    const mapLight = gui.addFolder('mapLight')
+    mapLight.add(mapPointLight.position, 'x')
+    mapLight.add(mapPointLight.position, 'y')
+    mapLight.add(mapPointLight.position, 'z')
+    mapLight.add(mapPointLight, 'intensity')
+    const col = {
+        color: '#ffff00'
+    }
+    mapLight.addColor(col, 'color').onChange(() => mapPointLight.color.set(col.color))
+
+    const mapPosition = gui.addFolder('map')
+    mapPosition.add(plane.rotation, 'x').step(0.01)
+    mapPosition.add(plane.rotation, 'y').step(0.01)
+    mapPosition.add(plane.rotation, 'z').step(0.01)
+
+    const mapCameraGuide = gui.addFolder('map camera')
+    mapCameraGuide.add(mapCamera.position, 'x').step(0.01)
+    mapCameraGuide.add(mapCamera.position, 'y').step(0.01)
+    mapCameraGuide.add(mapCamera.position, 'z').step(0.01)
+}
+
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
     alpha: true
@@ -219,7 +219,7 @@ const tick = () => {
     triangle.rotation.x = 0.7 * elapsedTime
 
     plane.rotation.z = 0.3 * elapsedTime
-    const displacement = Math.min(0.3 + mouseY * 0.003, 0.63)
+    const displacement = Math.min(0.3 + mouseY * 0.003, 0.53)
 
     plane.material.displacementScale = displacement > -0.3 ? displacement : -0.3
 

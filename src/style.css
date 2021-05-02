@@ -56,6 +56,48 @@ span {
 }
 
 section {
-    height: 100vh;
+    height: 80vh;
     color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.personal-info {
+    display: flex;
+    flex-direction: column;
+    width: 99%;
+}
+
+.personal-info h2 {
+    font-size: 3em;
+    color: #ffd100;
+    margin-bottom: 42px;
+}
+
+.personal-info h3 {
+    font-size: 1.5em;
+    color: #ffd100;
+}
+
+.bio {
+    margin-top: 36px;   
+    transform: skewY(0.5deg);
+}
+
+.bio .skew {
+    display: inline-block;
+}
+
+.slider-container {
+    position: relative;
+}
+
+.slider {
+    position: absolute;
+    display: grid;
+    place-content: center;
+    height: 80vh;
+    background: #4b00823b;
+    margin: 7%;
+    padding: 0 18px 0 24px;
 }
