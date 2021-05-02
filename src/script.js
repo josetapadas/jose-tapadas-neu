@@ -4,7 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 import { MeshStandardMaterial } from 'three';
 
-const enable_debugging = true;
+const enable_debugging = false;
 
 // loaders
 const textureLoader = new THREE.TextureLoader()
