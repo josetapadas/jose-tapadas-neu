@@ -79,17 +79,17 @@ section {
 
 .skew1 {
     display: inline-block;
-    transform: translateZ(10px);
+    transform: translateZ(7px);
 }
 
 .skew2 {
     display: inline-block;
-    transform: translateZ(20px);
+    transform: translateZ(23px);
 }
 
 .skew3 {
     display: inline-block;
-    transform: translateZ(-20px);
+    transform: translateZ(0px);
 }
 
 
@@ -100,7 +100,6 @@ section {
 
 .bio {
     margin-top: 36px;   
-    transform: translateZ(-250px);
 }
 
 .slider-container {
@@ -130,7 +129,6 @@ section {
 .link-icons img {
     max-width: 4vh;
     transition: transform 0.5s ease-in-out;
-    transform: skewX(0deg) skewY(0deg);
 }
 
 .link-icons img:hover {
