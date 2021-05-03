@@ -123,7 +123,7 @@ footer {
     border-top: 3px solid #430074;
     padding: 2vh 10vh;
     background-color: #756000;
-    text-align: left;
+    text-align: center;
 }
 
 @media only screen 
@@ -137,6 +137,10 @@ footer {
     .slider {
         margin: 2vh;
     }
+
+    .link-icons {
+        margin-top: 5vh;
+    } 
 }
 
 @media only screen 
