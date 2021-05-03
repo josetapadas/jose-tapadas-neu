@@ -93,9 +93,9 @@ section {
     position: absolute;
     display: grid;
     place-content: center;
-    height: 80vh;
+    height: 70vh;
     background: #4b00823b;
-    margin: 10vh 10vh;
+    margin: 20vh 30vh;
     padding: 0 18px 0 24px;
 }
 
@@ -136,5 +136,12 @@ footer {
 
     .slider {
         margin: 2vh;
+    }
+}
+
+@media only screen 
+  and (min-device-width: 1860px) {
+    .slider {
+        margin: 15vh 50vh;
     }
 }
