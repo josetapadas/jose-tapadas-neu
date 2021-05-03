@@ -38,7 +38,7 @@ h1 {
 }
 
 span {
-    font-size: 1rem;
+    font-size: 0.8rem;
     color: white;
     font-weight: 300;
 }
@@ -81,6 +81,11 @@ section {
 
 .bio {
     margin-top: 36px;   
+    transform: skewY(0.5deg);
+}
+
+.bio .skew {
+    display: inline-block;
 }
 
 .slider-container {
@@ -93,30 +98,8 @@ section {
     place-content: center;
     height: 80vh;
     background: #4b00823b;
-    margin: 10vh 10vh;
+    margin: 7%;
     padding: 0 18px 0 24px;
 }
 
-.link-icons {
-    align-items: center;
-    display: flex;
-    justify-content: space-evenly;
-    margin-top: 10vh;
-}
-
-.link-icons img {
-    max-width: 4vh;
-}
-
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 480px)
-  and (-webkit-min-device-pixel-ratio: 2) {
-    span {
-        font-size: 0.8rem;
-    }
-
-    .slider {
-        margin: 2vh;
-    }
-}
+/*# sourceMappingURL=main.css.map*/
