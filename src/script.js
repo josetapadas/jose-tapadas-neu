@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 import { MeshStandardMaterial } from 'three';
+import * as VanillaTilt from 'vanilla-tilt';
 
 const enable_debugging = false;
 
@@ -253,3 +254,7 @@ const tick = () => {
 }
 
 tick()
+
+VanillaTilt.init(document.querySelector(".slider"), {
+    max: 5,
+});
