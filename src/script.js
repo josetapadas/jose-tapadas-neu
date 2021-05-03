@@ -256,5 +256,5 @@ const tick = () => {
 tick()
 
 VanillaTilt.init(document.querySelector(".slider"), {
-    max: 5,
+    max: 2,
 });

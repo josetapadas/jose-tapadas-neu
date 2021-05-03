@@ -73,8 +73,25 @@ section {
 .personal-info h2 {
     font-size: 3em;
     color: #ffd100;
-    margin-bottom: 42px;
+    margin-bottom: 36px;
+    transform: translateZ(100px);
 }
+
+.skew1 {
+    display: inline-block;
+    transform: translateZ(10px);
+}
+
+.skew2 {
+    display: inline-block;
+    transform: translateZ(20px);
+}
+
+.skew3 {
+    display: inline-block;
+    transform: translateZ(-20px);
+}
+
 
 .personal-info h3 {
     font-size: 1.5em;
@@ -83,6 +100,7 @@ section {
 
 .bio {
     margin-top: 36px;   
+    transform: translateZ(-250px);
 }
 
 .slider-container {
@@ -97,6 +115,8 @@ section {
     background: #4b00823b;
     margin: 20vh 30vh;
     padding: 0 18px 0 24px;
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
 }
 
 .link-icons {
@@ -104,15 +124,17 @@ section {
     display: flex;
     justify-content: space-evenly;
     margin-top: 10vh;
+    transform: translateZ(50px)
 }
 
 .link-icons img {
     max-width: 4vh;
     transition: transform 0.5s ease-in-out;
+    transform: skewX(0deg) skewY(0deg);
 }
 
 .link-icons img:hover {
-    transform: skewX(180deg) skewY(180deg) translateZ(5px);
+    transform: skewX(180deg) skewY(180deg);
     width: 6vh;
 }
 
@@ -130,6 +152,9 @@ footer {
   and (min-device-width: 320px) 
   and (max-device-width: 480px)
   and (-webkit-min-device-pixel-ratio: 2) {
+    .personal-info h2 {
+        font-size: 2em;
+    }
     span {
         font-size: 0.8rem;
     }
