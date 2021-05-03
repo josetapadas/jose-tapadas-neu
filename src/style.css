@@ -10,6 +10,8 @@ body
     height: 100vh;
     background: rgb(7, 7, 7);
     font-family: 'Open Sans', sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
 
 body {
@@ -106,6 +108,22 @@ section {
 
 .link-icons img {
     max-width: 4vh;
+    transition: transform 0.5s ease-in-out;
+}
+
+.link-icons img:hover {
+    transform: skewX(180deg) skewY(180deg) translateZ(5px);
+    width: 6vh;
+}
+
+footer {
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-top: 10px;
+    border-top: 3px solid #430074;
+    padding: 2vh 10vh;
+    background-color: #756000;
+    text-align: center;
 }
 
 @media only screen 
