@@ -10,6 +10,8 @@ body
     height: 100vh;
     background: rgb(7, 7, 7);
     font-family: 'Open Sans', sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
 
 body {
@@ -38,7 +40,7 @@ h1 {
 }
 
 span {
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: white;
     font-weight: 300;
 }
@@ -71,8 +73,25 @@ section {
 .personal-info h2 {
     font-size: 3em;
     color: #ffd100;
-    margin-bottom: 42px;
+    margin-bottom: 36px;
+    transform: translateZ(100px);
 }
+
+.skew1 {
+    display: inline-block;
+    transform: translateZ(7px);
+}
+
+.skew2 {
+    display: inline-block;
+    transform: translateZ(23px);
+}
+
+.skew3 {
+    display: inline-block;
+    transform: translateZ(0px);
+}
+
 
 .personal-info h3 {
     font-size: 1.5em;
@@ -81,11 +100,6 @@ section {
 
 .bio {
     margin-top: 36px;   
-    transform: skewY(0.5deg);
-}
-
-.bio .skew {
-    display: inline-block;
 }
 
 .slider-container {
@@ -96,10 +110,68 @@ section {
     position: absolute;
     display: grid;
     place-content: center;
-    height: 80vh;
+    height: 70vh;
     background: #4b00823b;
-    margin: 7%;
+    margin: 20vh 30vh;
     padding: 0 18px 0 24px;
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
 }
+
+.link-icons {
+    align-items: center;
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 10vh;
+    transform: translateZ(50px)
+}
+
+.link-icons img {
+    max-width: 4vh;
+    transition: transform 0.5s ease-in-out;
+}
+
+.link-icons img:hover {
+    transform: skewX(180deg) skewY(180deg);
+    width: 6vh;
+}
+
+footer {
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-top: 10px;
+    border-top: 3px solid #430074;
+    padding: 2vh 10vh;
+    background-color: #756000;
+    text-align: center;
+}
+
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .personal-info h2 {
+        font-size: 2em;
+    }
+    span {
+        font-size: 0.8rem;
+    }
+
+    .slider {
+        margin: 2vh;
+    }
+
+    .link-icons {
+        margin-top: 5vh;
+    } 
+}
+
+@media only screen 
+  and (min-device-width: 1860px) {
+    .slider {
+        margin: 15vh 50vh;
+    }
+}
+
 
 /*# sourceMappingURL=main.css.map*/
